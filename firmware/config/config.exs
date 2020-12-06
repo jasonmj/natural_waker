@@ -15,6 +15,8 @@ config :natural_waker, target: Mix.target()
 
 config :nerves, :firmware, rootfs_overlay: "rootfs_overlay"
 
+config :nerves, :firmware, fwup_conf: "config/fwup.conf"
+
 # Set the SOURCE_DATE_EPOCH date for reproducible builds.
 # See https://reproducible-builds.org/docs/source-date-epoch/ for more information
 
