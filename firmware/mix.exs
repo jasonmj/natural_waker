@@ -36,6 +36,13 @@ defmodule NaturalWaker.MixProject do
       {:ring_logger, "~> 0.8.1"},
       {:toolshed, "~> 0.2.13"},
 
+      # Circuits projects
+      {:circuits_uart, "~> 1.3"},
+      {:circuits_gpio, "~> 0.4"},
+      {:circuits_i2c, "~> 0.3"},
+      {:circuits_spi, "~> 0.1"},
+      {:power_control, github: "cjfreeze/power_control"},
+
       # Dependencies for all targets except :host
       {:nerves_runtime, "~> 0.11.3", targets: @all_targets},
       {:nerves_pack, "~> 0.4.0", targets: @all_targets},
