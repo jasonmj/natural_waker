@@ -8,10 +8,12 @@ services:
       - "4000:4000"
     volumes:
       - ./firmware:/opt/app
+      - ./custom_rpi0:/opt/custom_rpi0
       - ./keyfix.sh:/usr/local/bin/keyfix.sh
-      - ~/.nerves/:/root/.nerves
+      - ~/.nerves/:/home/nerves/.nerves
       - ~/.ssh/:/tmp/.ssh
       - /dev/sdb:/dev/sdb
+      - /var/run/avahi-daemon/socket:/var/run/avahi-daemon/socket
     env_file: .env
     privileged: true
     entrypoint: /usr/local/bin/keyfix.sh

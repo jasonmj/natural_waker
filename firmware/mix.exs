@@ -3,7 +3,7 @@ defmodule NaturalWaker.MixProject do
 
   @app :natural_waker
   @version "0.1.0"
-  @all_targets [:rpi, :rpi0, :rpi2, :rpi3, :rpi3a, :rpi4, :bbb, :osd32mp1, :x86_64]
+  @all_targets [:rpi0, :custom_rpi0]
 
   def project do
     [
@@ -35,6 +35,7 @@ defmodule NaturalWaker.MixProject do
       {:shoehorn, "~> 0.7.0"},
       {:ring_logger, "~> 0.8.1"},
       {:toolshed, "~> 0.2.13"},
+      {:tzdata, "~> 1.1"},
 
       # Circuits projects
       {:circuits_uart, "~> 1.3"},
@@ -46,17 +47,16 @@ defmodule NaturalWaker.MixProject do
       # Dependencies for all targets except :host
       {:nerves_runtime, "~> 0.11.3", targets: @all_targets},
       {:nerves_pack, "~> 0.4.0", targets: @all_targets},
+      {:blinkchain, "~> 1.0", targets: @all_targets},
+      {:nerves_time, "~> 0.4.2", targets: @all_targets},
 
       # Dependencies for specific targets
-      {:nerves_system_rpi, "~> 1.13", runtime: false, targets: :rpi},
-      {:nerves_system_rpi0, "~> 1.13", runtime: false, targets: :rpi0},
-      {:nerves_system_rpi2, "~> 1.13", runtime: false, targets: :rpi2},
-      {:nerves_system_rpi3, "~> 1.13", runtime: false, targets: :rpi3},
-      {:nerves_system_rpi3a, "~> 1.13", runtime: false, targets: :rpi3a},
-      {:nerves_system_rpi4, "~> 1.13", runtime: false, targets: :rpi4},
-      {:nerves_system_bbb, "~> 2.8", runtime: false, targets: :bbb},
-      {:nerves_system_osd32mp1, "~> 0.4", runtime: false, targets: :osd32mp1},
-      {:nerves_system_x86_64, "~> 1.13", runtime: false, targets: :x86_64}
+      {:nerves_system_rpi0, "~> 1.13.3", runtime: false, targets: :rpi0},
+      {:custom_rpi0,
+       path: "../custom_rpi0", runtime: false, targets: :custom_rpi0, nerves: [compile: true]},
+
+      # Local dependencies
+      {:mix_tasks_upload_hotswap, "~> 0.1.0", only: :dev}
     ]
   end
 

@@ -8,7 +8,11 @@ import Config
 # Enable the Nerves integration with Mix
 Application.start(:nerves_bootstrap)
 
-config :natural_waker, target: Mix.target()
+config :natural_waker,
+  target: Mix.target(),
+  env: Mix.env()
+
+config :tzdata, :data_dir, "/tmp"
 
 # Customize non-Elixir parts of the firmware. See
 # https://hexdocs.pm/nerves/advanced-configuration.html for details.

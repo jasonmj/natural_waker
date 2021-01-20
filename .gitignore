@@ -17,3 +17,5 @@
 /firmware/erl_crash.dump
 
 .env
+
+custom_rpi0/

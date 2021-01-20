@@ -1,39 +1,31 @@
 defmodule NaturalWaker.Application do
-  # See https://hexdocs.pm/elixir/Application.html
-  # for more information on OTP Applications
   @moduledoc false
 
   use Application
 
   def start(_type, _args) do
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
     opts = [strategy: :one_for_one, name: NaturalWaker.Supervisor]
 
-    children =
-      [
-        # Children for all targets
-        # Starts a worker by calling: NaturalWaker.Worker.start_link(arg)
-        # {NaturalWaker.Worker, arg},
-      ] ++ children(target())
+    if Application.get_env(:natural_waker, :env) == :dev do
+      System.cmd("epmd", ["-daemon"])
+      Node.start(:"naturalwaker@nerves.local")
+      Node.set_cookie(Application.get_env(:mix_tasks_upload_hotswap, :cookie))
+    end
+
+    children = [] ++ children(target())
 
     Supervisor.start_link(children, opts)
   end
 
   # List all child processes to be supervised
   def children(:host) do
-    [
-      # Children that only run on the host
-      # Starts a worker by calling: NaturalWaker.Worker.start_link(arg)
-      # {NaturalWaker.Worker, arg},
-    ]
+    []
   end
 
   def children(_target) do
     [
-      # Children for all targets except host
-      # Starts a worker by calling: NaturalWaker.Worker.start_link(arg)
-      # {NaturalWaker.Worker, arg},
+      NaturalWaker.NeopixelStick,
+      NaturalWaker.SpeakerBonnet
     ]
   end
 
