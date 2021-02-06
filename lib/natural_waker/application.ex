@@ -4,13 +4,7 @@ defmodule NaturalWaker.Application do
   use Application
 
   def start(_type, _args) do
-    opts = [strategy: :one_for_one, name: NaturalWaker.Supervisor]
-
-    if Application.get_env(:natural_waker, :env) == :dev do
-      System.cmd("epmd", ["-daemon"])
-      Node.start(:"naturalwaker@nerves.local")
-      Node.set_cookie(Application.get_env(:mix_tasks_upload_hotswap, :cookie))
-    end
+    opts = [strategy: :one_for_all, name: NaturalWaker.Supervisor, shutdown: :infinity]
 
     children = [] ++ children(target())
 
@@ -23,9 +17,17 @@ defmodule NaturalWaker.Application do
   end
 
   def children(_target) do
+    if Application.get_env(:natural_waker, :env) == :dev do
+      System.cmd("epmd", ["-daemon"])
+      Node.start(:"naturalwaker@nerves-waker.local")
+      Node.set_cookie(Application.get_env(:mix_tasks_upload_hotswap, :cookie))
+    end
+
     [
       NaturalWaker.NeopixelStick,
-      NaturalWaker.SpeakerBonnet
+      NaturalWaker.SpeakerBonnet,
+      NaturalWaker.VolumeManager,
+      NaturalWaker.NaturalWaker
     ]
   end
 

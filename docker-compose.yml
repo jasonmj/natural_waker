@@ -7,7 +7,7 @@ services:
     ports:
       - "4000:4000"
     volumes:
-      - ./firmware:/opt/app
+      - ./:/opt/app
       - ./custom_rpi0:/opt/custom_rpi0
       - ./keyfix.sh:/usr/local/bin/keyfix.sh
       - ~/.nerves/:/home/nerves/.nerves
