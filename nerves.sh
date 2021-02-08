@@ -4,6 +4,7 @@ docker-compose up -d
 
 case $1 in
     "burn")
+        docker-compose exec nerves sh deploy-phoenix.sh
         docker-compose exec nerves mix deps.get
         docker-compose exec nerves mix firmware.burn
         ;;
@@ -13,9 +14,10 @@ case $1 in
         ;;
 
     "update")
+        docker-compose exec nerves sh deploy-phoenix.sh
         docker-compose exec nerves mix deps.get
         docker-compose exec nerves mix firmware
-        docker-compose exec nerves mix upload 192.168.0.101 #nerves-waker.local
+        docker-compose exec nerves mix upload 192.168.0.102 #nerves-waker.local
         ;;
 esac
 
