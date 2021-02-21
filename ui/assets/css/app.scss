@@ -1,9 +1,9 @@
 /* This file is for your main application css. */
 @import "./phoenix.css";
 @import "../node_modules/nprogress/nprogress.css";
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
+/* @import "tailwindcss/base"; */
+/* @import "tailwindcss/components"; */
+/* @import "tailwindcss/utilities"; */
 
 /* LiveView specific classes for your customizations */
 .phx-no-feedback.invalid-feedback,
@@ -91,4 +91,20 @@
   color: #a94442;
   display: block;
   margin: -1rem 0 2rem;
+}
+.file-list {
+  list-style: none;
+  li {
+    label {
+      cursor: pointer;
+      display: inline-block;
+      font-size: 1em;
+      font-weight: normal;
+      &:hover {color: #31708f;}
+    }
+    span {
+      cursor: pointer;
+      &:hover {color: #31708f;}
+    }
+  }
 }

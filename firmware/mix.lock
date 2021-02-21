@@ -1,4 +1,5 @@
 %{
+  "amnesia": {:hex, :amnesia, "0.2.8", "81199a1c4c8db886cfb8ea159f746d5ffdb188bee96cb944f63bdb4465b09fa0", [:mix], [{:exquisite, "~> 0.1.7", [hex: :exquisite, repo: "hexpm", optional: false]}], "hexpm", "6037898c974457809ffa1f9a74cccab8f48c99b206aee9b3fc7bb3af73b06b14"},
   "blinkchain": {:hex, :blinkchain, "1.0.0", "0bef4296c0fc3e36c153d717eefcaf5fa6681b4c81f3f5b98030e8044d3d3fe1", [:make, :mix], [{:elixir_make, "~> 0.6", [hex: :elixir_make, repo: "hexpm", optional: false]}], "hexpm", "ecf950d7eb3fb0409efb64e952be3d921bc20045a5cd736cd4c4e52cfa852c7a"},
   "certifi": {:hex, :certifi, "2.5.3", "70bdd7e7188c804f3a30ee0e7c99655bc35d8ac41c23e12325f36ab449b70651", [:rebar3], [{:parse_trans, "~>3.3", [hex: :parse_trans, repo: "hexpm", optional: false]}], "hexpm", "ed516acb3929b101208a9d700062d520f3953da3b6b918d866106ffa980e1c10"},
   "circuits_gpio": {:hex, :circuits_gpio, "0.4.6", "e4c37e49f5f76d662db90f9c4bcf51d6537681bb0dd2a00238598eb35b15e084", [:make, :mix], [{:elixir_make, "~> 0.6", [hex: :elixir_make, repo: "hexpm", optional: false]}], "hexpm", "cd2c9d7f16530d40218ccc2d2f727079439adf5df7bacc90c5a6197b40b06e9b"},
@@ -10,6 +11,7 @@
   "cowlib": {:hex, :cowlib, "2.9.1", "61a6c7c50cf07fdd24b2f45b89500bb93b6686579b069a89f88cb211e1125c78", [:rebar3], [], "hexpm", "e4175dc240a70d996156160891e1c62238ede1729e45740bdd38064dad476170"},
   "dns": {:hex, :dns, "2.2.0", "4721a79c2bccc25481930dffbfd06f40851321c3d679986af307111214bf124c", [:mix], [{:socket, "~> 0.3.13", [hex: :socket, repo: "hexpm", optional: false]}], "hexpm", "13ed1ef36ce896211ec6ce5e02709dbfb12aa61d6255bda8d531577a0a5a56e0"},
   "elixir_make": {:hex, :elixir_make, "0.6.2", "7dffacd77dec4c37b39af867cedaabb0b59f6a871f89722c25b28fcd4bd70530", [:mix], [], "hexpm", "03e49eadda22526a7e5279d53321d1cced6552f344ba4e03e619063de75348d9"},
+  "exquisite": {:hex, :exquisite, "0.1.10", "e3ca4f8b812696a40a6da3bcd4e9861cef879ee2eb239d5485b0f96885fc9fba", [:mix], [], "hexpm", "0af9319851f1e21dd4adab812c82247f05e11cc19820fa17cc74afd696e2313c"},
   "file_system": {:hex, :file_system, "0.2.10", "fb082005a9cd1711c05b5248710f8826b02d7d1784e7c3451f9c1231d4fc162d", [:mix], [], "hexpm", "41195edbfb562a593726eda3b3e8b103a309b733ad25f3d642ba49696bf715dc"},
   "gen_state_machine": {:hex, :gen_state_machine, "3.0.0", "1e57f86a494e5c6b14137ebef26a7eb342b3b0070c7135f2d6768ed3f6b6cdff", [:mix], [], "hexpm", "0a59652574bebceb7309f6b749d2a41b45fdeda8dbb4da0791e355dd19f0ed15"},
   "gettext": {:hex, :gettext, "0.18.2", "7df3ea191bb56c0309c00a783334b288d08a879f53a7014341284635850a6e55", [:mix], [], "hexpm", "f9f537b13d4fdd30f3039d33cb80144c3aa1f8d9698e47d7bcbcc8df93b1f5c5"},

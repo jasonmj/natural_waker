@@ -23,7 +23,9 @@ defmodule NaturalWaker.MixProject do
   def application do
     [
       mod: {NaturalWaker.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :mnesia, :runtime_tools],
+      # Set this instead for production.
+      # included_applications: [:mnesia]
     ]
   end
 

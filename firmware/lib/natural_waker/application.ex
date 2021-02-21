@@ -17,13 +17,8 @@ defmodule NaturalWaker.Application do
   end
 
   def children(_target) do
-    if Application.get_env(:natural_waker, :env) == :dev do
-      System.cmd("epmd", ["-daemon"])
-      Node.start(:"naturalwaker@nerves-waker.local")
-      Node.set_cookie(Application.get_env(:mix_tasks_upload_hotswap, :cookie))
-    end
-
     [
+      NaturalWaker.ConfigDB,
       NaturalWaker.NeopixelStick,
       NaturalWaker.SpeakerBonnet,
       NaturalWaker.VolumeManager,

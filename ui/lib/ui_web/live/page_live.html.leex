@@ -1,48 +1,73 @@
-<section class="phx-hero">
-  <h1><%= gettext "Welcome to %{name}!", name: "Natural Waker" %></h1>
-  <p>Peace of mind from prototype to production</p>
-
-  <form phx-change="suggest" phx-submit="search">
-    <input type="text" name="q" value="<%= @query %>" placeholder="Live dependency search" list="results" autocomplete="off"/>
-    <datalist id="results">
-      <%= for {app, _vsn} <- @results do %>
-        <option value="<%= app %>"><%= app %></option>
-      <% end %>
-    </datalist>
-    <button type="submit" phx-disable-with="Searching...">Go to Hexdocs</button>
+<section>
+  <label>Color</label>
+  <color-picker
+    id="color-picker"
+    phx-hook="PhoenixCustomEvent"
+    phx-custom-event-new-value="color_change"
+    value="<%= @color %>"
+    formats="hex,rgb,hsl,hsv,hex8"
+    selectedformat="hex">
+  </color-picker>
+  <label>Brightness</label>
+  <paper-slider
+    id="brightness-slider"
+    phx-hook="PhoenixCustomEvent"
+    phx-custom-event-new-value="brightness_change"
+    value="<%= @brightness %>"
+    max="255"
+    editable>
+  </paper-slider>
+  <label>Volume</label>
+  <paper-slider
+    id="volume-slider"
+    phx-hook="PhoenixCustomEvent"
+    phx-custom-event-new-value="volume_change"
+    value="<%= @volume %>"
+    max="100"
+    editable>
+  </paper-slider>
+  <label>Audio Files</label>
+  <ul class="file-list">
+  <%= for {file, index} <- Enum.with_index(@audio_files) do %>
+    <li>
+      <div>
+        <input
+          type="radio"
+          id="<%= index %>"
+          name="audio_file"
+          value="<%= file %>"
+          phx-hook="PhoenixCustomEvent"
+          phx-custom-event-new-value="file_change"
+          <%= if file === @audio_file do "checked" end %>>
+        <label for="<%= index %>"><%= file %> </label>
+        <span phx-click="play_file" phx-value-filename="<%= file %>">[ ▶ Preview ]</span>
+        <span onclick="confirmation<%= index %>.open()">[ 🗑 Delete ]</span>
+      </div>
+      <paper-dialog id="confirmation<%= index %>" with-backdrop style="display: none">
+        <h2>Confirmation</h2>
+        <p>Are you sure you want to delete the file <strong><%= file %></strong></p>
+        <div class="buttons">
+          <button dialog-confirm autofocus phx-click="delete_file" phx-value-filename="<%= file %>">Delete</button>
+          <button dialog-dismiss>Cancel</button>
+        </div>
+      </paper-dialog>
+    </li>
+  <% end %>
+  </ul>
+  <%= for entry <- @uploads.audio.entries do %>
+    <%= entry.client_name %> - <%= entry.progress %>%
+  <% end %>
+  <form phx-submit="upload_files" phx-change="validate">
+    <%= live_file_input @uploads.audio %>
+    <button type="submit">Upload</button>
   </form>
-</section>
-
-<section class="row">
-  <article class="column">
-    <h2>Resources</h2>
-    <ul>
-      <li>
-        <a href="https://hexdocs.pm/phoenix/overview.html">Guides &amp; Docs</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix">Source</a>
-      </li>
-      <li>
-        <a href="https://github.com/phoenixframework/phoenix/blob/v1.5/CHANGELOG.md">v1.5 Changelog</a>
-      </li>
-    </ul>
-  </article>
-  <article class="column">
-    <h2>Help</h2>
-    <ul>
-      <li>
-        <a href="https://elixirforum.com/c/phoenix-forum">Forum</a>
-      </li>
-      <li>
-        <a href="https://webchat.freenode.net/?channels=elixir-lang">#elixir-lang on Freenode IRC</a>
-      </li>
-      <li>
-        <a href="https://twitter.com/elixirphoenix">Twitter @elixirphoenix</a>
-      </li>
-      <li>
-        <a href="https://elixir-slackin.herokuapp.com/">Elixir on Slack</a>
-      </li>
-    </ul>
-  </article>
+  <label>Alarm Time</label>
+  <time-picker
+    id="time-picker"
+    value="<%= @time %>"
+    phx-hook="PhoenixCustomEvent"
+    phx-custom-event-new-value="time_change"></time-picker>
+  <br /><br />
+  <button phx-click="save_config">Save Configuration</button>
+  <button phx-click="stop_audio">Stop Audio</button>
 </section>

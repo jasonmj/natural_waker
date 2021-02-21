@@ -1,23 +1,25 @@
 #!/run/current-system/sw/bin/sh
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+cd $DIR
 docker-compose up -d
 
 case $1 in
     "burn")
-        docker-compose exec nerves sh deploy-phoenix.sh
-        docker-compose exec nerves mix deps.get
-        docker-compose exec nerves mix firmware.burn
+        docker-compose exec -T nerves sh deploy-phoenix.sh
+        docker-compose exec -T nerves mix deps.get
+        docker-compose exec -T nerves mix firmware.burn
         ;;
 
     "hotswap")
-        docker-compose exec nerves mix upload.hotswap
+        docker-compose exec -T nerves mix upload.hotswap
         ;;
 
     "update")
-        docker-compose exec nerves sh deploy-phoenix.sh
-        docker-compose exec nerves mix deps.get
-        docker-compose exec nerves mix firmware
-        docker-compose exec nerves mix upload 192.168.0.102 #nerves-waker.local
+        docker-compose exec -T nerves sh deploy-phoenix.sh
+        docker-compose exec -T nerves mix deps.get
+        docker-compose exec -T nerves mix firmware
+        docker-compose exec -T nerves mix upload 192.168.0.13
         ;;
 esac
 

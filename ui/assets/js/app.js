@@ -3,8 +3,6 @@
 // its own CSS file.
 import '../css/app.scss'
 
-import Alpine from 'alpinejs'
-
 // webpack automatically bundles all modules in your
 // entry points. Those entry points can be configured
 // in "webpack.config.js".
@@ -14,22 +12,63 @@ import Alpine from 'alpinejs'
 //     import {Socket} from "phoenix"
 //     import socket from "./socket"
 //
+
+// import Alpine from 'alpinejs'
 import 'phoenix_html'
 import { Socket } from 'phoenix'
 import NProgress from 'nprogress'
 import { LiveSocket } from 'phoenix_live_view'
+import PhoenixCustomEvent from 'phoenix-custom-event-hook'
+
+import '@polymer/paper-slider/paper-slider'
+Array.from(document.getElementsByTagName('paper-slider')).map((el) => {
+  el.addEventListener('value-change', () =>
+    el.fire('new-value', { value: el.value })
+  )
+})
+
+import 'color-picker-element'
+Array.from(document.getElementsByTagName('color-picker')).map((el) => {
+  el.addEventListener('change', () =>
+    el.dispatchEvent(
+      new CustomEvent('new-value', { detail: { value: el.value } })
+    )
+  )
+})
+
+import '@polymer/paper-dialog'
+
+import '@fooloomanzoo/datetime-picker/time-picker'
+Array.from(document.getElementsByTagName('time-picker')).map((el) => {
+  el.addEventListener('input-picker-closed', () =>
+    el.dispatchEvent(
+      new CustomEvent('new-value', { detail: { value: el.value } })
+    )
+  )
+})
+
+Array.from(
+  document.querySelectorAll('input[type="radio"][name="audio_file"]')
+).map((el) =>
+  el.addEventListener('change', (e) =>
+    e.target.dispatchEvent(
+      new CustomEvent('new-value', { detail: { value: e.target.value } })
+    )
+  )
+)
 
 let csrfToken = document
     .querySelector("meta[name='csrf-token']")
     .getAttribute('content')
 let liveSocket = new LiveSocket('/live', Socket, {
-  dom: {
-    onBeforeElUpdated(from, to) {
-      if (from.__x) {
-        Alpine.clone(from.__x, to)
-      }
-    }
-  },
+  // dom: {
+  //   onBeforeElUpdated(from, to) {
+  //     if (from.__x) {
+  //       Alpine.clone(from.__x, to)
+  //     }
+  //   }
+  // },
+  hooks: { PhoenixCustomEvent },
   params: { _csrf_token: csrfToken }
 })
 

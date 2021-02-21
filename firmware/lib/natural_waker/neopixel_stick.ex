@@ -1,32 +1,29 @@
 defmodule NaturalWaker.NeopixelStick do
+  require Logger
   use GenServer
 
   alias Blinkchain.Point
   alias Blinkchain.Color
 
-  @warm_yellow Color.parse("#FFCB00FF")
-  @lights_out Color.parse("#00000000")
-
   def start_link(opts \\ []) do
-    GenServer.start_link(__MODULE__, opts, name: :neopixel_stick)
+    GenServer.start_link(__MODULE__, opts, name: NeopixelStick)
   end
 
   @impl GenServer
   def init(_opts) do
+    Logger.info("Initializing neopixel stick")
+    set_color("#FFCB00")
+    set_brightness(10)
     set_brightness(0)
     {:ok, %{}}
   end
 
-  defp set_the_lights(color) do
-    Enum.each(0..7, fn x -> Blinkchain.set_pixel(%Point{x: x, y: 0}, color) end)
+  defp set_color(color) do
+    Enum.each(0..7, fn x -> Blinkchain.set_pixel(%Point{x: x, y: 0}, Color.parse(color)) end)
+    Blinkchain.render()
   end
 
   defp set_brightness(level) do
-    if level > 0 do
-      set_the_lights(@warm_yellow)
-    else
-      set_the_lights(@lights_out)
-    end
     Blinkchain.set_brightness(0, level)
     Blinkchain.render()
   end
@@ -34,6 +31,12 @@ defmodule NaturalWaker.NeopixelStick do
   @impl GenServer
   def handle_info({:set_brightness, level}, state) do
     set_brightness(level)
+    {:noreply, state}
+  end
+
+  @impl GenServer
+  def handle_info({:set_color, color}, state) do
+    set_color(color)
     {:noreply, state}
   end
 end

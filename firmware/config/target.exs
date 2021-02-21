@@ -9,7 +9,7 @@ config :shoehorn,
   app: Mix.Project.config()[:app]
 
 config :ui, UiWeb.Endpoint,
-  url: [host: "natural-waker.local"],
+  url: [host: "naturalwaker.local"],
   http: [port: 80],
   secret_key_base: "HEY05EB1dFVSu6KykKHuS4rQPQzSHv4F7mGVB/gnDLrIu75wE/ytBXy2TaL3A6RA",
   live_view: [signing_salt: "AAAABjEyERMkxgDh"],
@@ -86,7 +86,7 @@ config :mdns_lite,
   # "nerves.local" for convenience. If more than one Nerves device is on the
   # network, delete "nerves" from the list.
 
-  host: [:hostname, "nerves-waker"],
+  host: [:hostname, "naturalwaker"],
   ttl: 120,
 
   # Advertise the following services over mDNS.
@@ -111,8 +111,7 @@ config :mdns_lite,
     }
   ]
 
-config :blinkchain,
-  canvas: {8, 1}
+config :blinkchain, canvas: {8, 1}
 
 config :blinkchain, :channel0,
   pin: 12,
@@ -128,6 +127,8 @@ config :blinkchain, :channel0,
     }
   ]
 
+config :blinkchain, dma_channel: 14
+
 config :power_control,
   cpu_governor: :powersave,
   disable_hdmi: false,
@@ -135,7 +136,7 @@ config :power_control,
 
 config :mix_tasks_upload_hotswap,
   app_name: :natural_waker,
-  nodes: [:"naturalwaker@nerves-waker.local"],
+  nodes: [:"app@naturalwaker.local"],
   cookie: :"secret token shared between nodes"
 
 config :nerves_time, :servers, [
@@ -144,6 +145,8 @@ config :nerves_time, :servers, [
   "2.pool.ntp.org",
   "3.pool.ntp.org"
 ]
+
+config :mnesia, dir: '/root/mnesia/'
 
 # Import target specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

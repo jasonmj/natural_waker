@@ -2,7 +2,7 @@ defmodule NaturalWaker.VolumeManager do
   use GenServer
 
   def start_link(opts \\ []) do
-    GenServer.start_link(__MODULE__, opts, name: :volume_manager)
+    GenServer.start_link(__MODULE__, opts, name: VolumeManager)
   end
 
   @impl GenServer
