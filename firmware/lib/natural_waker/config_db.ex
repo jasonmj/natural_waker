@@ -78,7 +78,7 @@ defmodule NaturalWaker.ConfigDB do
     :mnesia.create_table(ConfigDB, attributes: [:id, :val], disc_copies: [node()])
   end
 
-  def get(id) do
+  defp get(id) do
     t = fn -> :mnesia.read({ConfigDB, id}) end
 
     case :mnesia.transaction(t) do
@@ -94,7 +94,7 @@ defmodule NaturalWaker.ConfigDB do
     end
   end
 
-  def put(id, val) do
+  defp put(id, val) do
     t = fn -> :mnesia.write({ConfigDB, id, val}) end
 
     case :mnesia.transaction(t) do
@@ -108,5 +108,17 @@ defmodule NaturalWaker.ConfigDB do
         Logger.error("Error in put: #{inspect(error)}")
         error
     end
+  end
+
+  @impl true
+  def handle_call({:get, id}, _pid, state) do
+    config = get(id)
+    {:reply, config, state}
+  end
+
+  @impl true
+  def handle_cast({:put, {id, val}}, state) do
+    put(id, val)
+    {:noreply, state}
   end
 end

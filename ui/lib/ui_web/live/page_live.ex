@@ -35,7 +35,7 @@ defmodule UiWeb.PageLive do
         time: 43_200_000
       }
     else
-      NaturalWaker.ConfigDB.get(0)
+      GenServer.call({ConfigDB, node()}, {:get, 0})
     end
   end
 
@@ -76,13 +76,11 @@ defmodule UiWeb.PageLive do
   def handle_event("upload_files", _params, socket) do
     Logger.info("New file uploaded")
 
-    uploaded_files =
-      consume_uploaded_entries(socket, :audio, fn %{path: path}, entry ->
-        Logger.info(entry.client_name)
-        dest = Path.join(audio_dir(), entry.client_name)
-        File.cp!(path, dest)
-        Routes.static_path(socket, "/uploads/#{Path.basename(dest)}")
-      end)
+    consume_uploaded_entries(socket, :audio, fn %{path: path}, entry ->
+      dest = Path.join(audio_dir(), entry.client_name)
+      File.cp!(path, dest)
+      Routes.static_path(socket, "/uploads/#{Path.basename(dest)}")
+    end)
 
     audio_files = File.ls!(audio_dir())
     {:noreply, assign(socket, audio_files: audio_files)}
@@ -135,7 +133,7 @@ defmodule UiWeb.PageLive do
       time: socket.assigns.time
     }
 
-    NaturalWaker.ConfigDB.put(0, new_config)
+    GenServer.cast({ConfigDB, node()}, {:put, {0, new_config}})
     Process.send({NaturalWaker, Node.self()}, :get_config, [])
     {:noreply, socket}
   end

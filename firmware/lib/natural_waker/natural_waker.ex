@@ -13,7 +13,7 @@ defmodule NaturalWaker.NaturalWaker do
   @impl GenServer
   def init(_opts) do
     {:ok, ref} = :timer.send_interval(1000, :tick)
-    config = NaturalWaker.DB.get(0)
+    config = GenServer.call({ConfigDB, node()}, {:get, 0})
 
     state = %State{
       alarm_on: false,
@@ -76,7 +76,7 @@ defmodule NaturalWaker.NaturalWaker do
 
   @impl GenServer
   def handle_info(:get_config, state) do
-    config = NaturalWaker.DB.get(0)
+    config = GenServer.call({ConfigDB, node()}, {:get, 0})
     Logger.info(inspect(config))
     {:noreply, state |> struct(%{config: config})}
   end
