@@ -23,7 +23,7 @@ defmodule NaturalWaker.MixProject do
   def application do
     [
       mod: {NaturalWaker.Application, []},
-      extra_applications: [:logger, :mnesia, :runtime_tools],
+      extra_applications: [:logger, :mnesia, :runtime_tools]
       # Set this instead for production.
       # included_applications: [:mnesia]
     ]
@@ -59,7 +59,7 @@ defmodule NaturalWaker.MixProject do
        path: "../custom_rpi0", runtime: false, targets: :custom_rpi0, nerves: [compile: true]},
 
       # Local dependencies
-      {:mix_tasks_upload_hotswap, "~> 0.1.0", only: :dev}
+      {:mix_tasks_upload_hotswap, "~> 0.1.2", only: :dev}
     ]
   end
 
