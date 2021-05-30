@@ -50,18 +50,20 @@ defmodule NaturalWaker.NaturalWaker do
       end
 
     alarm_minute = rem(local_minutes, 60)
-    now.hour === alarm_hour and now.minute >= alarm_minute and now.minute <= alarm_minute + 5
+    now.hour === alarm_hour and now.minute >= alarm_minute and now.minute <= alarm_minute + 8
   end
 
   defp sleep_mode() do
     set_brightness(0)
     set_volume(0)
+    Process.send({SpeakerBonnet, node()}, :stop_audio, [])
   end
 
   defp activate_alarm(config) do
     Logger.info("activating alarm")
     set_volume(config.volume)
     Process.send({SpeakerBonnet, node()}, {:play_file, config.audio_file}, [])
+    Process.send({SpeakerBonnet, node()}, :set_repeat, [])
     set_color(config.color)
     set_brightness(config.brightness)
   end
@@ -86,7 +88,14 @@ defmodule NaturalWaker.NaturalWaker do
     if in_alarm_range?(state.config.time) do
       if state.alarm_on === false do
         activate_alarm(state.config)
-        {:noreply, state |> struct(%{alarm_on: true, brightness: 10, volume: 20})}
+
+        {:noreply,
+         state
+         |> struct(%{
+           alarm_on: true,
+           brightness: state.config.brightness,
+           volume: state.config.volume
+         })}
       else
         {brightness, volume} = increment_alarm(state)
         {:noreply, state |> struct(%{brightness: brightness, alarm_on: true, volume: volume})}
