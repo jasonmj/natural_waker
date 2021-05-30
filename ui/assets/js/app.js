@@ -3,17 +3,7 @@
 // its own CSS file.
 import '../css/app.scss'
 
-// webpack automatically bundles all modules in your
-// entry points. Those entry points can be configured
-// in "webpack.config.js".
-//
-// Import deps with the dep name or local files with a relative path, for example:
-//
-//     import {Socket} from "phoenix"
-//     import socket from "./socket"
-//
-
-// import Alpine from 'alpinejs'
+import Alpine from 'alpinejs'
 import 'phoenix_html'
 import { Socket } from 'phoenix'
 import NProgress from 'nprogress'
@@ -25,6 +15,12 @@ Array.from(document.getElementsByTagName('paper-slider')).map((el) => {
   el.addEventListener('value-change', () =>
     el.fire('new-value', { value: el.value })
   )
+  const customStyles = document.createElement('style')
+  customStyles.innerHTML =
+    '' +
+    '.slider-input {width: 75px;}' +
+    '.slider-knob {transform: scale(1.5);}'
+  el.shadowRoot.appendChild(customStyles)
 })
 
 import 'color-picker-element'
@@ -40,9 +36,15 @@ import '@polymer/paper-dialog'
 
 import '@fooloomanzoo/datetime-picker/time-picker'
 Array.from(document.getElementsByTagName('time-picker')).map((el) => {
+  const normalizeTime = (date) =>
+        new Date(
+          new Date(new Date(date.toISOString()).setDate(1)).setMonth(0)
+        ).setFullYear(1970)
   el.addEventListener('input-picker-closed', () =>
     el.dispatchEvent(
-      new CustomEvent('new-value', { detail: { value: el.value } })
+      new CustomEvent('new-value', {
+        detail: { value: normalizeTime(el.valueAsDate) }
+      })
     )
   )
 })
@@ -57,18 +59,27 @@ Array.from(
   )
 )
 
+import '@polymer/paper-toast/paper-toast.js'
+
+let Hooks = {}
+Hooks.PhoenixCustomEvent = PhoenixCustomEvent
+Hooks.SaveButton = {
+  mounted() {
+    this.handleEvent('saved', () => {
+      document.getElementById('saved-toast').open()
+    })
+  }
+}
 let csrfToken = document
     .querySelector("meta[name='csrf-token']")
     .getAttribute('content')
 let liveSocket = new LiveSocket('/live', Socket, {
-  // dom: {
-  //   onBeforeElUpdated(from, to) {
-  //     if (from.__x) {
-  //       Alpine.clone(from.__x, to)
-  //     }
-  //   }
-  // },
-  hooks: { PhoenixCustomEvent },
+  dom: {
+    onBeforeElUpdated(from, to) {
+      if (from.__x) Alpine.clone(from.__x, to)
+    }
+  },
+  hooks: Hooks,
   params: { _csrf_token: csrfToken }
 })
 

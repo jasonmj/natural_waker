@@ -15,7 +15,7 @@ defmodule UiWeb.PageLive do
      |> assign(:brightness, config.brightness)
      |> assign(:volume, config.volume)
      |> assign(:time, config.time)
-     |> allow_upload(:audio, accept: ~w(.wav), max_entries: 1)}
+     |> allow_upload(:audio, accept: ~w(.wav), max_entries: 1, max_file_size: 20_000_000)}
   end
 
   defp audio_dir() do
@@ -87,13 +87,6 @@ defmodule UiWeb.PageLive do
   end
 
   @impl true
-  def handle_event("start_audio", %{"value" => ""}, socket) do
-    Logger.info("Starting audio")
-    Process.send({SpeakerBonnet, Node.self()}, :start_audio, [])
-    {:noreply, socket}
-  end
-
-  @impl true
   def handle_event("play_file", %{"filename" => filename}, socket) do
     Logger.info("Playing file #{filename}")
     Process.send({SpeakerBonnet, Node.self()}, {:play_file, filename}, [])
@@ -135,6 +128,6 @@ defmodule UiWeb.PageLive do
 
     GenServer.cast({ConfigDB, node()}, {:put, {0, new_config}})
     Process.send({NaturalWaker, Node.self()}, :get_config, [])
-    {:noreply, socket}
+    {:noreply, push_event(socket, "saved", new_config)}
   end
 end
