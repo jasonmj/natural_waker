@@ -15,6 +15,10 @@ case $1 in
         docker-compose exec -T nerves mix upload.hotswap
         ;;
 
+    "phoenix")
+        docker-compose exec -T nerves sh start-phoenix.sh
+        ;;
+
     "update")
         docker-compose exec -T nerves sh deploy-phoenix.sh
         docker-compose exec -T nerves mix deps.get
