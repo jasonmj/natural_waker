@@ -1,8 +1,8 @@
-# This file is responsible for configuring your application
-# and its dependencies with the aid of the Mix.Config module.
+# This file is responsible for configuring your application and its
+# dependencies.
 #
-# This configuration file is loaded before any dependency and
-# is restricted to this project.
+# This configuration file is loaded before any dependency and is restricted to
+# this project.
 import Config
 
 # Enable the Nerves integration with Mix
@@ -24,7 +24,7 @@ config :nerves, :firmware, fwup_conf: "config/fwup.conf"
 # Set the SOURCE_DATE_EPOCH date for reproducible builds.
 # See https://reproducible-builds.org/docs/source-date-epoch/ for more information
 
-config :nerves, source_date_epoch: "1607278001"
+config :nerves, source_date_epoch: "1641519651"
 
 # Use Ringlogger as the logger backend and remove :console.
 # See https://hexdocs.pm/ring_logger/readme.html for more information on
@@ -35,6 +35,8 @@ config :logger, backends: [RingLogger]
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
-if Mix.target() != :host do
+if Mix.target() == :host or Mix.target() == :"" do
+  import_config "host.exs"
+else
   import_config "target.exs"
 end

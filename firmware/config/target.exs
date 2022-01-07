@@ -32,7 +32,7 @@ config :nerves_runtime, :kernel, use_system_registry: false
 
 config :nerves,
   erlinit: [
-    hostname_pattern: "natural-waker"
+    hostname_pattern: "naturalwaker"
   ]
 
 # Configure the device for SSH IEx prompt access and firmware updates
@@ -60,12 +60,12 @@ config :nerves_ssh,
   authorized_keys: Enum.map(keys, &File.read!/1)
 
 # Configure the network using vintage_net
+# See https://github.com/nerves-networking/vintage_net for more information
 config :vintage_net,
   regulatory_domain: "US",
   config: [
     {"wlan0",
      %{
-       ipv4: %{method: :dhcp},
        type: VintageNetWiFi,
        vintage_net_wifi: %{
          networks: [
@@ -75,7 +75,8 @@ config :vintage_net,
              ssid: System.get_env("WPA_SSID")
            }
          ]
-       }
+       },
+       ipv4: %{method: :dhcp}
      }}
   ]
 
@@ -92,19 +93,16 @@ config :mdns_lite,
   # Advertise the following services over mDNS.
   services: [
     %{
-      name: "SSH Remote Login Protocol",
       protocol: "ssh",
       transport: "tcp",
       port: 22
     },
     %{
-      name: "Secure File Transfer Protocol over SSH",
       protocol: "sftp-ssh",
       transport: "tcp",
       port: 22
     },
     %{
-      name: "Erlang Port Mapper Daemon",
       protocol: "epmd",
       transport: "tcp",
       port: 4369
