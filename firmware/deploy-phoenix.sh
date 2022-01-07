@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /opt/ui
+cd /root/ui
 npm run deploy --prefix assets
 mix deps.get --only prod
 mix phx.digest

@@ -7,9 +7,8 @@ services:
     ports:
       - "4000:4000"
     volumes:
-      - ./firmware:/opt/app
-      - ./ui:/opt/ui
-      - ./custom_rpi0:/opt/custom_rpi0
+      - ./firmware:/root/app
+      - ./ui:/root/ui
       - ./keyfix.sh:/usr/local/bin/keyfix.sh
       - ~/.nerves/:/home/nerves/.nerves
       - ~/.ssh/:/tmp/.ssh
@@ -18,5 +17,5 @@ services:
     env_file: .env
     privileged: true
     entrypoint: /usr/local/bin/keyfix.sh
-    working_dir: /opt/app
+    working_dir: /root/app
     stdin_open: true
