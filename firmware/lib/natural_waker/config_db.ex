@@ -86,7 +86,13 @@ defmodule NaturalWaker.ConfigDB do
         val
 
       {:atomic, []} ->
-        nil
+        %{
+          color: "#000000",
+          brightness: 0,
+          audio_file: nil,
+          volume: 0,
+          time: 43_200_000
+        }
 
       error ->
         Logger.error("Error in get: #{inspect(error)}")
