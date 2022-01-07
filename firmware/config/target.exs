@@ -127,22 +127,10 @@ config :blinkchain, :channel0,
 
 config :blinkchain, dma_channel: 14
 
-config :power_control,
-  cpu_governor: :powersave,
-  disable_hdmi: false,
-  disable_leds: true
-
 config :mix_tasks_upload_hotswap,
   app_name: :natural_waker,
   nodes: [:"app@naturalwaker.local"],
   cookie: :"secret token shared between nodes"
-
-config :nerves_time, :servers, [
-  "0.pool.ntp.org",
-  "1.pool.ntp.org",
-  "2.pool.ntp.org",
-  "3.pool.ntp.org"
-]
 
 config :mnesia, dir: '/root/mnesia/'
 
