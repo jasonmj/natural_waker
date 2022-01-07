@@ -4,6 +4,7 @@ defmodule UiWeb.PageLive do
 
   @impl Phoenix.LiveView
   def mount(_params, _session, socket) do
+    System.cmd("mkdir", ["-p", audio_dir()])
     audio_files = File.ls!(audio_dir())
     config = get_config()
 
