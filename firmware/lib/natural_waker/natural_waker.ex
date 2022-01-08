@@ -70,7 +70,7 @@ defmodule NaturalWaker.NaturalWaker do
 
   defp increment_alarm(state) do
     brightness = if state.brightness >= 255, do: 255, else: state.brightness + 2
-    volume = if state.volume >= 60, do: 60, else: state.volume + 1
+    volume = if state.volume >= 100, do: 100, else: state.volume + 1
     set_brightness(brightness)
     set_volume(volume)
     {brightness, volume}

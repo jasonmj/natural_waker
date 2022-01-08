@@ -45,7 +45,11 @@
                 phx-custom-event-new-value="file_change"
                 <%= if file === @audio_file do "checked" end %>>
               <label for="<%= index %>"><%= file %> </label>
-              <span phx-click="play_file" phx-value-filename="<%= file %>">[ ▶ Preview ]</span>
+              <%= if @audio_playing == file do %>
+                <span phx-click="stop_audio">[ ■ Stop ]</button>
+              <% else %>
+                <span phx-click="play_file" phx-value-filename="<%= file %>">[ ▶ Preview ]</span>
+              <% end %>
               <span onclick="confirmation<%= index %>.open()">[ 🗑 Delete ]</span>
             </div>
             <paper-dialog id="confirmation<%= index %>" with-backdrop style="display: none">
@@ -82,7 +86,6 @@
   </div>
   <div class="text-center">
     <button id="save-button" phx-hook="SaveButton" phx-click="save_config">Save Configuration</button>
-    <button phx-click="stop_audio">Stop Audio</button>
   </div>
   <br /><br />
 </section>

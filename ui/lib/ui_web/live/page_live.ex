@@ -12,6 +12,7 @@ defmodule UiWeb.PageLive do
      socket
      |> assign(:audio_files, audio_files)
      |> assign(:audio_file, config.audio_file)
+     |> assign(:audio_playing, false)
      |> assign(:color, config.color)
      |> assign(:brightness, config.brightness)
      |> assign(:volume, config.volume)
@@ -91,7 +92,7 @@ defmodule UiWeb.PageLive do
   def handle_event("play_file", %{"filename" => filename}, socket) do
     Logger.info("Playing file #{filename}")
     Process.send({SpeakerBonnet, Node.self()}, {:play_file, filename}, [])
-    {:noreply, socket}
+    {:noreply, socket |> assign(audio_playing: filename)}
   end
 
   @impl true
@@ -106,7 +107,7 @@ defmodule UiWeb.PageLive do
   def handle_event("stop_audio", _params, socket) do
     Logger.info("Stopping audio")
     Process.send({SpeakerBonnet, Node.self()}, :stop_audio, [])
-    {:noreply, socket}
+    {:noreply, socket |> assign(audio_playing: false)}
   end
 
   @impl true
