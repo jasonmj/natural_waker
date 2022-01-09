@@ -123,21 +123,18 @@ defmodule UiWeb.PageLive do
   end
 
   @impl true
-  def handle_event("duration_change", anything, socket) do
-    Logger.info(anything)
-    {:noreply, socket}
+  def handle_event("duration_change", %{"value" => duration}, socket) do
+    {:noreply, socket |> assign(duration: duration)}
   end
 
   @impl true
-  def handle_event("brightness_inc_change", anything, socket) do
-    Logger.info(anything)
-    {:noreply, socket}
+  def handle_event("brightness_inc_change", %{"value" => brightness_inc}, socket) do
+    {:noreply, socket |> assign(brightness_inc: brightness_inc)}
   end
 
   @impl true
-  def handle_event("volume_inc_change", anything, socket) do
-    Logger.info(anything)
-    {:noreply, socket}
+  def handle_event("volume_inc_change", %{"value" => volume_inc}, socket) do
+    {:noreply, socket |> assign(volume_inc: volume_inc)}
   end
 
   @impl true
