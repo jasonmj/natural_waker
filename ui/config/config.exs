@@ -10,7 +10,7 @@ import Config
 # Configures the endpoint
 config :ui, UiWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "umBY2bSUn5j5wv1KkYuW5kSy2RuQz7VL4kBzUTiJM/yW7GVrv54vlgGNDNPytlpM",
+  secret_key_base: System.get_env("SECRET_KEY_BASE"),
   render_errors: [view: UiWeb.ErrorView, accepts: ~w(html json), layout: false],
   pubsub_server: Ui.PubSub,
   live_view: [signing_salt: "5NYr6mjZ"]
