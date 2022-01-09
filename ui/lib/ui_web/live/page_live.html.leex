@@ -32,6 +32,9 @@
         editable>
       </paper-slider>
       <label>Audio Files</label>
+      <%= if Enum.count(@audio_files) == 0 do %>
+        No audio files found. Upload one below:
+      <% end %>
       <ul class="file-list">
         <%= for {file, index} <- Enum.with_index(@audio_files) do %>
           <li>
