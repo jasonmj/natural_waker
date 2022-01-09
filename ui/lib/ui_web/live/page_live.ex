@@ -17,6 +17,9 @@ defmodule UiWeb.PageLive do
      |> assign(:brightness, config.brightness)
      |> assign(:volume, config.volume)
      |> assign(:time, config.time)
+     |> assign(:duration, config.duration)
+     |> assign(:brightness_inc, config.brightness_inc)
+     |> assign(:volume_inc, config.volume_inc)
      |> allow_upload(:audio, accept: ~w(.wav), max_entries: 1, max_file_size: 20_000_000)}
   end
 
@@ -34,7 +37,10 @@ defmodule UiWeb.PageLive do
         brightness: 0,
         audio_file: "birds.wav",
         volume: 0,
-        time: 43_200_000
+        time: 43_200_000,
+        duration: 480,
+        brightness_inc: 2,
+        volume_inc: 1
       }
     else
       GenServer.call({ConfigDB, node()}, {:get, 0})
@@ -117,6 +123,24 @@ defmodule UiWeb.PageLive do
   end
 
   @impl true
+  def handle_event("duration_change", anything, socket) do
+    Logger.info(anything)
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("brightness_inc_change", anything, socket) do
+    Logger.info(anything)
+    {:noreply, socket}
+  end
+
+  @impl true
+  def handle_event("volume_inc_change", anything, socket) do
+    Logger.info(anything)
+    {:noreply, socket}
+  end
+
+  @impl true
   def handle_event("save_config", _params, socket) do
     Logger.info("Saving config")
 
@@ -125,7 +149,10 @@ defmodule UiWeb.PageLive do
       brightness: socket.assigns.brightness,
       audio_file: socket.assigns.audio_file,
       volume: socket.assigns.volume,
-      time: socket.assigns.time
+      time: socket.assigns.time,
+      duration: socket.assigns.duration,
+      brightness_inc: socket.assigns.brightness_inc,
+      volume_inc: socket.assigns.volume_inc
     }
 
     GenServer.cast({ConfigDB, node()}, {:put, {0, new_config}})

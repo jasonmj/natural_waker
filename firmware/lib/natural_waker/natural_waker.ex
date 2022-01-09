@@ -38,9 +38,9 @@ defmodule NaturalWaker.NaturalWaker do
     Process.send({VolumeManager, node()}, {:set_volume, level}, [])
   end
 
-  defp in_alarm_range?(time) do
+  defp in_alarm_range?(config) do
     {:ok, now} = DateTime.now("America/New_York", Tzdata.TimeZoneDatabase)
-    local_minutes = round(time / 1000 / 60) - 300
+    local_minutes = round(config.time / 1000 / 60) - 300
 
     alarm_hour =
       Integer.floor_div(local_minutes, 60)
@@ -50,7 +50,9 @@ defmodule NaturalWaker.NaturalWaker do
       end
 
     alarm_minute = rem(local_minutes, 60)
-    now.hour === alarm_hour and now.minute >= alarm_minute and now.minute <= alarm_minute + 8
+
+    now.hour === alarm_hour and now.minute >= alarm_minute and
+      now.minute <= alarm_minute + config.duration
   end
 
   defp sleep_mode() do
@@ -69,8 +71,10 @@ defmodule NaturalWaker.NaturalWaker do
   end
 
   defp increment_alarm(state) do
-    brightness = if state.brightness >= 255, do: 255, else: state.brightness + 2
-    volume = if state.volume >= 100, do: 100, else: state.volume + 1
+    brightness =
+      if state.brightness >= 255, do: 255, else: state.brightness + state.config.brightness_inc
+
+    volume = if state.volume >= 100, do: 100, else: state.volume + state.config.volume_inc
     set_brightness(brightness)
     set_volume(volume)
     {brightness, volume}
@@ -85,7 +89,7 @@ defmodule NaturalWaker.NaturalWaker do
 
   @impl GenServer
   def handle_info(:tick, state) do
-    if in_alarm_range?(state.config.time) do
+    if in_alarm_range?(state.config) do
       if state.alarm_on === false do
         activate_alarm(state.config)
 

@@ -91,7 +91,10 @@ defmodule NaturalWaker.ConfigDB do
           brightness: 0,
           audio_file: nil,
           volume: 0,
-          time: 43_200_000
+          time: 43_200_000,
+          duration: 480,
+          brightness_inc: 2,
+          volume_inc: 1
         }
 
       error ->

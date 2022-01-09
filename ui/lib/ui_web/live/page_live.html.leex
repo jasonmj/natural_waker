@@ -82,6 +82,27 @@
         phx-hook="PhoenixCustomEvent"
         phx-custom-event-new-value="time_change"></time-picker>
       <br /><br />
+      <label>Duration (in seconds)</label>
+      <input
+        id="duration"
+        type="number"
+        phx-blur="duration_change"
+        value="<%= @duration %>">
+      <br /><br />
+      <label>Brightness increment (RGB, 0 - 255)</label>
+      <input
+        id="brightness_inc"
+        type="number"
+        phx-blur="brightness_inc_change"
+        value="<%= @brightness_inc %>">
+      <br /><br />
+      <label>Volume increment (in %)</label>
+      <input
+        id="volume_inc"
+        type="number"
+        phx-blur="volume_inc_change"
+        value="<%= @volume_inc %>">
+      <br /><br />
     </div>
   </div>
   <div class="text-center">
