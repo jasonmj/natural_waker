@@ -44,7 +44,7 @@ defmodule NaturalWaker.MixProject do
       {:blinkchain, "~> 1.0", targets: @all_targets},
 
       # Local dependencies
-      {:mix_tasks_upload_hotswap, "~> 0.1.2"},
+      {:mix_tasks_upload_hotswap, "~> 0.1.2", only: :dev},
 
       # NOTE: It's generally low risk and recommended to follow minor version
       # bumps to Nerves systems. Since these include Linux kernel and Erlang
