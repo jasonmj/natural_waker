@@ -1,6 +1,2 @@
-* Multiple configurations
-* Light duration
-* Light step
-* Volume step
 * Snooze
-* Upgrade custom nerves system
+* Multiple configurations
