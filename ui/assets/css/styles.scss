@@ -45,3 +45,8 @@ paper-slider {width: 300px;}
     width: 100%;
   }
 }
+input[type="number"] {
+  box-shadow: inset 0px 0px 0px 1px #e5e7eb;
+  border-radius: 3px;
+  padding: 3px 7px;
+}
