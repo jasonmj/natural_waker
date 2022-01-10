@@ -1,0 +1,46 @@
+* Natural Waker
+  A programmable alarm clock capable of emulating a natural sunrise and so much more.
+* Hardware List
+** Speaker
+   Ideally you should have two of these, but you could also get by with one.
+   https://www.adafruit.com/product/3968
+** Neopixel Stick
+   One is plenty bright enough, but since these are chainable, you could use more.
+   https://www.adafruit.com/product/2867
+** Adafruit Speaker Bonnet
+   Adafruit now sells kits that come with a combination of the Speaker Bonnet and speakers, but this link _should_ go directly to the bonnet only product page.
+   https://www.adafruit.com/product/3346
+** Raspberry Pi Zero W
+   It's typically easier to get started if you buy the version that comes with headers.
+   https://www.adafruit.com/product/3708
+* Tech Stack
+  This repo was built with an Elixir project structure known as a "poncho project", in which there are multiple applications adjacent to each other. In this case, the `firmware` directory contains the primary application, which includes a reference to one secondary application in the `ui` directory.
+** Firmware
+*** Nerves
+*** Blinkchain
+*** HifiBerry DAC Overlay
+** UI
+*** Phoenix
+*** Phoenix Live View
+*** Alpine JS
+*** Tailwind CSS
+*** Web Components
+**** Datetime Picker
+**** Color Picker
+**** Paper Slider
+**** Paper Toast
+**** Paper Dialog
+* Getting Started
+  The original development setup for this project included Docker and Docker Compose configurations to enable firmware compilation and burning from within NixOS. However, if you've already got Elixir and OTP installed on your host operating system, you can run this project by simply following the normal getting started procedure for any Nerves project.
+** Using Docker
+   If you would like to use Docker for development, you can start by running `docker-compose up -d` to start the `nerves` service in daemon mode. Then, to shell in, you can run `docker-compose exec nerves bash`.
+
+   Please note that there are a few important aspects to this project configuration to be aware of:
+   1. The host operating system's ssh keys and config file will be mapped to the container for usage during over the air updates.
+   2. The host user's home folder will be used to store Nerves project artifacts downloaded when getting the project set up.
+   3. The `docker-compose` configuration includes `privileged` settings that will allow Linux based host operating systems to run sudo commands (necessary for burning firmware).
+
+   For Docker users, there is also a convenient bash script, `nerves.sh`, available to help make common commands easier to run. It includes commands for `burn`, `hotswap`, `update`, and `phoenix`.
+   `burn` - Runs a phoenix deploy in the `ui` service, fetches dependencies with mix, compiles the latest firmware, and burns the firmware to a usb-connected micro SD card.
+   `hotswap` - Runs `mix upload.hotswap` to perform an immediate over the air hotswap of the latest version of compiled modules (great for development workflow).
+   `update` - Does everything that `burn` does except instead of burning the firmware, it runs an over the air firmware update.

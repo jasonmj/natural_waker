@@ -23,7 +23,7 @@ case $1 in
         docker-compose exec -T nerves sh deploy-phoenix.sh
         docker-compose exec -T nerves mix deps.get
         docker-compose exec -T nerves mix firmware
-        docker-compose exec -T nerves mix upload 192.168.0.13
+        docker-compose exec -T nerves mix upload naturalwaker.local
         ;;
 esac
 
