@@ -124,17 +124,20 @@ defmodule UiWeb.PageLive do
 
   @impl true
   def handle_event("duration_change", %{"value" => duration}, socket) do
-    {:noreply, socket |> assign(duration: duration)}
+    {value, _} = Integer.parse(duration)
+    {:noreply, socket |> assign(duration: value)}
   end
 
   @impl true
   def handle_event("brightness_inc_change", %{"value" => brightness_inc}, socket) do
-    {:noreply, socket |> assign(brightness_inc: brightness_inc)}
+    {value, _} = Integer.parse(brightness_inc)
+    {:noreply, socket |> assign(brightness_inc: value)}
   end
 
   @impl true
   def handle_event("volume_inc_change", %{"value" => volume_inc}, socket) do
-    {:noreply, socket |> assign(volume_inc: volume_inc)}
+    {value, _} = Integer.parse(volume_inc)
+    {:noreply, socket |> assign(volume_inc: value)}
   end
 
   @impl true
