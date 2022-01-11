@@ -41,6 +41,9 @@
    3. The `docker-compose` configuration includes `privileged` settings that will allow Linux based host operating systems to run sudo commands (necessary for burning firmware).
 
    For Docker users, there is also a convenient bash script, `nerves.sh`, available to help make common commands easier to run. It includes commands for `burn`, `hotswap`, `update`, and `phoenix`.
+   
    `burn` - Runs a phoenix deploy in the `ui` service, fetches dependencies with mix, compiles the latest firmware, and burns the firmware to a usb-connected micro SD card.
+   
    `hotswap` - Runs `mix upload.hotswap` to perform an immediate over the air hotswap of the latest version of compiled modules (great for development workflow).
+   
    `update` - Does everything that `burn` does except instead of burning the firmware, it runs an over the air firmware update.
