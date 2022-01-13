@@ -42,6 +42,7 @@ defmodule NaturalWaker.MixProject do
       {:nerves_runtime, "~> 0.11.3", targets: @all_targets},
       {:nerves_pack, "~> 0.6.0", targets: @all_targets},
       {:blinkchain, "~> 1.0", targets: @all_targets},
+      {:power_control, "~> 0.2.0", targets: @all_targets},
 
       # Local dependencies
       {:mix_tasks_upload_hotswap, "~> 0.1.2", only: :dev},

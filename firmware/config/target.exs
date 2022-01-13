@@ -5,7 +5,7 @@ import Config
 # involved with firmware updates.
 
 config :shoehorn,
-  init: [:nerves_runtime, :nerves_pack],
+  init: [:nerves_runtime, :nerves_pack, :power_control],
   app: Mix.Project.config()[:app]
 
 config :ui, UiWeb.Endpoint,
@@ -126,6 +126,9 @@ config :blinkchain, :channel0,
   ]
 
 config :blinkchain, dma_channel: 14
+
+config :power_control,
+  disable_leds: true
 
 config :mix_tasks_upload_hotswap,
   app_name: :natural_waker,
