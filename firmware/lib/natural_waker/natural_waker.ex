@@ -52,7 +52,7 @@ defmodule NaturalWaker.NaturalWaker do
     alarm_minute = rem(local_minutes, 60)
 
     now.hour === alarm_hour and now.minute >= alarm_minute and
-      now.minute <= alarm_minute + config.duration
+      now.minute <= alarm_minute + config.duration / 60
   end
 
   defp sleep_mode() do
